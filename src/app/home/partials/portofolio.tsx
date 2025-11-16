@@ -20,7 +20,7 @@ const Portofolio: React.FC = () => {
         opts={{
           align: "start",
         }}
-        className="w-full gap-4 md:gap-5"
+        className="w-full gap-4 md:gap-5 mb-10"
       >
         <CarouselContent>
           {portofolioData.map((porto) => (

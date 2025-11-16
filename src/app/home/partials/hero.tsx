@@ -8,8 +8,12 @@ const Hero: React.FC = () => {
   return (
     <section
       id="hero"
-      className="w-full items-center gap-7 overflow-hidden pt-28 md:pt-[147px] h-[798px] md:max-h-full bg-[linear-gradient(to_right,transparent_1px),linear-gradient(to_bottom,transparent_1px),linear-gradient(180deg,#111827_0%,#3730A3_50%,#0F766E_100%)] 
-    bg-size-[40px_40px,40px_40px,auto_auto] relative"
+      className="w-full items-center gap-7 overflow-hidden pt-28 md:pt-[147px] h-[798px] md:max-h-full relative"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, transparent 1px), linear-gradient(to bottom, transparent 1px), linear-gradient(180deg, #111827 0%, #3730A3 50%, #0F766E 100%)",
+        backgroundSize: "40px 40px, 40px 40px, auto auto",
+      }}
     >
       {/* Pattern Top */}
       <Image
