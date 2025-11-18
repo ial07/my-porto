@@ -9,10 +9,31 @@ const WorkExperience: React.FC = () => {
     <Section
       title="Work Experience"
       subtitle="A timeline of companies and roles that helped shape my skills."
+      className="relative"
     >
       {experienceData.map((exp, index) => (
-        <ExperiencedItem key={index} {...exp} isRight={index % 2 === 0} />
+        <ExperiencedItem
+          key={index}
+          index={index}
+          totalItems={experienceData.length}
+          {...exp}
+          isRight={index % 2 === 0}
+        />
       ))}
+      <Image
+        src="/images/Vector-bg.png"
+        width={1500}
+        height={1500}
+        alt="vector"
+        className="absolute top-0 -right-20 -z-10"
+      />
+      <Image
+        src="/images/Vector-bg.png"
+        width={1000}
+        height={1000}
+        alt="vector"
+        className="absolute -bottom-40 -left-200 -z-10"
+      />
     </Section>
   );
 };

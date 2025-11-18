@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { StaticImageData } from "next/image";
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -29,20 +29,24 @@ type ExperiencedItemProps = {
 };
 
 export const ExperiencedItem: React.FC<
-  ExperiencedItemProps & { isRight: boolean; index: number; totalItems: number } // Added totalItems prop
+  ExperiencedItemProps & { isRight: boolean; index: number; totalItems: number }
 > = ({ title, description, image, range, isRight, index, totalItems }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 }); // Set once: false for continuous updates
-  // or true if you want it to animate only once per scroll down
 
-  // Layout and margin classes
+  // 1. Determines if the card/line has EVER been seen (locks to TRUE)
+  const hasAnimated = useInView(ref, { once: true, amount: 0.5 });
+
+  // 2. Determines if the dot is CURRENTLY on screen (flips TRUE/FALSE)
+  const isCurrentlyInView = useInView(ref, { once: false, amount: 0.5 });
+
+  // Layout and margin classes (unchanged)
   const itemWrapperClasses = "w-full max-w-[50%]";
   const imageOrderClass = isRight ? "order-1" : "order-3";
   const contentOrderClass = isRight ? "order-3" : "order-1";
   const contentMarginClass = isRight ? "ml-6" : "mr-6";
   const imageMarginClass = isRight ? "mr-6" : "ml-6";
 
-  // Card slide-in animation variants (unchanged)
+  // Card slide-in animation variants
   const cardVariants = {
     hidden: { opacity: 0, x: isRight ? -50 : 50 },
     visible: {
@@ -52,7 +56,7 @@ export const ExperiencedItem: React.FC<
     },
   };
 
-  // Bullet appearance animation variants (scale in)
+  // Bullet appearance and color variants
   const bulletVariants = {
     hidden: { scale: 0, opacity: 0 },
     visible: {
@@ -64,33 +68,34 @@ export const ExperiencedItem: React.FC<
         damping: 20,
         delay: 0.2,
       },
-    }, // Pop effect
-    // Color variants (for when it's not in view, it goes back to gray)
-    gray: { backgroundColor: "#D1D5DB", transition: { duration: 0.3 } }, // gray-300
-    primary: { backgroundColor: "#3B82F6", transition: { duration: 0.3 } }, // primary color
+    },
+    // Color variants (controlled by isCurrentlyInView)
+    gray: { backgroundColor: "#D5D7DA", transition: { duration: 0.3 } },
+    primary: { backgroundColor: "#C2DBFF", transition: { duration: 0.3 } },
   };
 
-  // Line animation variants (height from 0 to full, and color)
+  // Line animation variants
+
+  const isLastItem = index === totalItems - 1;
+
   const lineVariants = {
-    hidden: { height: 0, backgroundColor: "#D1D5DB" }, // gray-300
+    hidden: { height: 0, backgroundColor: "#D5D7DA" },
     visible: {
-      height: "400px", // Animate to full height of its container
-      backgroundColor: "#3B82F6", // Change color when active
+      // FIX: Use a ternary operator to return either a valid height string OR undefined.
+      height: !isLastItem ? "400px" : undefined,
+      backgroundColor: "#D5D7DA",
       transition: { duration: 0.5, ease: "easeInOut" as const, delay: 0.1 },
     },
   };
 
-  // Determine if this is the last item to correctly cap the line animation
-  const isLastItem = index === totalItems - 1;
-
   return (
     <div className="flex w-full items-center mb-4 md:mb-8" ref={ref}>
-      {/* 1. Image Container (Animated) */}
+      {/* 1. Image Container (Uses hasAnimated for persistent visibility) */}
       <motion.div
         className={`${itemWrapperClasses} ${imageOrderClass} ${imageMarginClass}`}
         variants={cardVariants}
         initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
+        animate={hasAnimated ? "visible" : "hidden"}
       >
         <Image
           src="/images/porto-1.png"
@@ -101,41 +106,41 @@ export const ExperiencedItem: React.FC<
         />
       </motion.div>
 
-      {/* 2. Central Timeline Decoration Spine (Animated Line and Bullet) */}
-      <div className="relative w-10 shrink-0 flex items-center justify-center order-2">
-        {/* Line (Animates Height and Color) */}
-        {/* This div's height will be controlled by Framer Motion. 
-            We make its container have a fixed height if it's the last item 
-            to ensure the line doesn't extend unnecessarily. */}
+      {/* 2. Central Timeline Decoration Spine (h-full is crucial) */}
+      <div className="relative w-10 shrink-0 flex items-stretch justify-center order-2">
+        {/* Line (Uses hasAnimated for persistent height) */}
         <motion.div
           className="absolute top-0 bottom-0 w-0.5 bg-gray-300 transform -translate-x-1/2"
           variants={lineVariants}
           initial="hidden"
-          // If it's the last item, the line should only be half height *if* it's at the end of the list.
-          // For now, let's simplify and always animate to full height within its context
-          // and control the actual bottom margin of the parent div if needed.
-          animate={isInView ? "visible" : "hidden"}
-          // Adjust height for the last item dynamically
+          animate={hasAnimated ? "visible" : "hidden"}
           style={{
-            height: isLastItem ? (isInView ? "50%" : 0) : isInView ? "100%" : 0,
-            top: isLastItem ? "0" : "0", // For the last item, line starts from the top of its container
+            // Last item line logic
+            height: isLastItem ? (hasAnimated ? "50%" : 0) : undefined,
+            top: isLastItem ? "0" : "0",
           }}
         ></motion.div>
 
-        {/* Bullet Dot (Animates Scale/Opacity and Color) */}
+        {/* Bullet Dot (Uses hasAnimated for scale, isCurrentlyInView for color) */}
         <motion.div
-          className="size-8 md:size-10 relative flex items-center justify-center rounded-full p-1 md:p-1.5 z-10"
+          // NOTE: Removed any explicit bg-* class here to allow Framer Motion to control color
+          className="size-6 md:size-8 relative flex items-center justify-center rounded-full p-1 md:p-2 z-10"
           initial="hidden"
-          // Animate the scale/opacity when in view, and the color based on focus
+          // Animate: [1. Locks scale to visible, 2. Flips color based on current view]
           animate={
-            isInView
-              ? ["visible", "primary"]
-              : ["hidden", "gray"]
+            hasAnimated
+              ? ["visible", index === 0 ? "primary" : "gray"]
+              : "hidden"
           }
           variants={bulletVariants}
         >
-          {/* Inner Dot (Stays Primary-200, no text inside for now, just a bullet) */}
-          <div className="w-full h-full rounded-full bg-primary-200"></div>
+          {/* Inner Dot (Shows step number only when actively highlighted) */}
+          <div
+            className={cn(
+              "w-full h-full rounded-full text-black flex items-center justify-center font-bold",
+              index === 0 ? "bg-primary-200" : "bg-neutral-400"
+            )}
+          ></div>
         </motion.div>
       </div>
 
@@ -144,7 +149,7 @@ export const ExperiencedItem: React.FC<
         className={`${itemWrapperClasses} ${contentOrderClass} ${contentMarginClass}`}
         variants={cardVariants}
         initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
+        animate={hasAnimated ? "visible" : "hidden"}
       >
         <div className="shadow-lg rounded-3xl w-full h-fit p-4 md:p-5 border border-gray-100 bg-white">
           <div className="flex items-center gap-1">
