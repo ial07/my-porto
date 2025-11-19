@@ -12,7 +12,10 @@ import { faqData } from "@/constants/faq-data";
 
 const Faq: React.FC = () => {
   return (
-    <section id="faq" className="w-full relative py-10 md:py-25">
+    <section
+      id="faq"
+      className="w-full relative pt-10 md:pt-25 pb-40 md:pb-60"
+    >
       <Image
         src="/images/gradient-bg.png"
         fill
@@ -47,9 +50,8 @@ const Faq: React.FC = () => {
       </div>
       {/* Oval Bottom */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 -bottom-50 w-[120vw] h-50 z-100"
+        className="absolute left-1/2 bg-black -translate-x-1/2 -bottom-40 w-[120vw] h-50 z-10"
         style={{
-          backgroundColor: "black",
           borderRadius: "50% / 30%",
         }}
       />

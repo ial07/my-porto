@@ -2,6 +2,7 @@
 
 import About from "./home/partials/about";
 import Faq from "./home/partials/faq";
+import Footer from "./home/partials/footer";
 import Hero from "./home/partials/hero";
 import Navbar from "./home/partials/navbar";
 import Portofolio from "./home/partials/portofolio";
@@ -22,6 +23,7 @@ export default function Home() {
       <WorkExperience />
       <Testimony />
       <Faq/>
+      <Footer/>
     </div>
   );
 }
