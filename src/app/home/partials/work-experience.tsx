@@ -32,7 +32,7 @@ const WorkExperience: React.FC = () => {
         width={1000}
         height={1000}
         alt="vector"
-        className="absolute -bottom-40 -left-200 -z-10"
+        className="absolute -bottom-100 -left-150 -z-10"
       />
     </Section>
   );
