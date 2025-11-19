@@ -33,16 +33,21 @@ export const ExperiencedItem: React.FC<
 > = ({ title, description, image, range, isRight, index, totalItems }) => {
   const ref = useRef(null);
 
-  // 1. Determines if the card/line has EVER been seen (locks to TRUE)
-  const hasAnimated = useInView(ref, { once: true, amount: 0.5 });
-
-  // 2. Determines if the dot is CURRENTLY on screen (flips TRUE/FALSE)
-  const isCurrentlyInView = useInView(ref, { once: false, amount: 0.5 });
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   // Layout and margin classes (unchanged)
   const itemWrapperClasses = "w-full max-w-[50%]";
-  const imageOrderClass = isRight ? "order-1" : "order-3";
-  const contentOrderClass = isRight ? "order-3" : "order-1";
+  const imageOrderClass = isMobile
+    ? "order-2"
+    : isRight
+    ? "order-1"
+    : "order-3";
+  const contentOrderClass = isMobile
+    ? "order-2"
+    : isRight
+    ? "order-3"
+    : "order-1";
+  const lineOrderClass = isMobile ? "order-1" : "order-2";
   const contentMarginClass = isRight ? "ml-6" : "mr-6";
   const imageMarginClass = isRight ? "mr-6" : "ml-6";
 
@@ -58,9 +63,10 @@ export const ExperiencedItem: React.FC<
 
   // Bullet appearance and color variants
   const bulletVariants = {
-    hidden: { scale: 0, opacity: 0 },
+    hidden: { scale: 0.5, opacity: 1, backgroundColor: "#E9EAEB" },
     visible: {
-      scale: 1,
+      backgroundColor: "#C2DBFF",
+      scale: 1.1,
       opacity: 1,
       transition: {
         type: "spring" as const,
@@ -69,9 +75,6 @@ export const ExperiencedItem: React.FC<
         delay: 0.2,
       },
     },
-    // Color variants (controlled by isCurrentlyInView)
-    gray: { backgroundColor: "#D5D7DA", transition: { duration: 0.3 } },
-    primary: { backgroundColor: "#C2DBFF", transition: { duration: 0.3 } },
   };
 
   // Line animation variants
@@ -81,10 +84,9 @@ export const ExperiencedItem: React.FC<
   const lineVariants = {
     hidden: { height: 0, backgroundColor: "#D5D7DA" },
     visible: {
-      // FIX: Use a ternary operator to return either a valid height string OR undefined.
-      height: !isLastItem ? "400px" : undefined,
-      backgroundColor: "#D5D7DA",
-      transition: { duration: 0.5, ease: "easeInOut" as const, delay: 0.1 },
+      height: !isLastItem ? "clamp(17.81rem, 50.98vw, 32.63rem)" : undefined,
+      backgroundColor: "#C2DBFF",
+      transition: { duration: 1, ease: "easeInOut" as const, delay: 0.1 },
     },
   };
 
@@ -95,7 +97,8 @@ export const ExperiencedItem: React.FC<
         className={`${itemWrapperClasses} ${imageOrderClass} ${imageMarginClass}`}
         variants={cardVariants}
         initial="hidden"
-        animate={hasAnimated ? "visible" : "hidden"}
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
       >
         <Image
           src="/images/porto-1.png"
@@ -107,40 +110,41 @@ export const ExperiencedItem: React.FC<
       </motion.div>
 
       {/* 2. Central Timeline Decoration Spine (h-full is crucial) */}
-      <div className="relative w-10 shrink-0 flex items-stretch justify-center order-2">
+      <div
+        className={`relative w-10 shrink-0 flex items-stretch justify-center ${lineOrderClass}`}
+      >
         {/* Line (Uses hasAnimated for persistent height) */}
         <motion.div
-          className="absolute top-0 bottom-0 w-0.5 bg-gray-300 transform -translate-x-1/2"
+          className="absolute top-0 bottom-0 w-0.5 transform -translate-x-1/2 h-full"
           variants={lineVariants}
           initial="hidden"
-          animate={hasAnimated ? "visible" : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
           style={{
-            // Last item line logic
-            height: isLastItem ? (hasAnimated ? "50%" : 0) : undefined,
-            top: isLastItem ? "0" : "0",
+            height: isLastItem ? "50%" : undefined,
+            top: "0",
           }}
-        ></motion.div>
+        />
 
         {/* Bullet Dot (Uses hasAnimated for scale, isCurrentlyInView for color) */}
         <motion.div
-          // NOTE: Removed any explicit bg-* class here to allow Framer Motion to control color
           className="size-6 md:size-8 relative flex items-center justify-center rounded-full p-1 md:p-2 z-10"
           initial="hidden"
-          // Animate: [1. Locks scale to visible, 2. Flips color based on current view]
-          animate={
-            hasAnimated
-              ? ["visible", index === 0 ? "primary" : "gray"]
-              : "hidden"
-          }
+          whileInView="visible"
           variants={bulletVariants}
+          viewport={{ amount: 0.5 }}
         >
-          {/* Inner Dot (Shows step number only when actively highlighted) */}
-          <div
+          <motion.div
             className={cn(
-              "w-full h-full rounded-full text-black flex items-center justify-center font-bold",
-              index === 0 ? "bg-primary-200" : "bg-neutral-400"
+              "w-full h-full rounded-full text-black flex items-center justify-center font-bold z-50"
             )}
-          ></div>
+            initial={{ background: "#9CA3AF" }} // bg-neutral-400
+            whileInView={{
+              backgroundColor: "#2d8cff",
+              transition: { duration: 0.3 },
+            }}
+            viewport={{ amount: 0.5 }}
+          ></motion.div>
         </motion.div>
       </div>
 
@@ -149,7 +153,8 @@ export const ExperiencedItem: React.FC<
         className={`${itemWrapperClasses} ${contentOrderClass} ${contentMarginClass}`}
         variants={cardVariants}
         initial="hidden"
-        animate={hasAnimated ? "visible" : "hidden"}
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
       >
         <div className="shadow-lg rounded-3xl w-full h-fit p-4 md:p-5 border border-gray-100 bg-white">
           <div className="flex items-center gap-1">

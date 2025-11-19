@@ -25,7 +25,7 @@ const WorkExperience: React.FC = () => {
         width={1500}
         height={1500}
         alt="vector"
-        className="absolute top-0 -right-20 -z-10"
+        className="absolute top-20 -right-20 -z-50"
       />
       <Image
         src="/images/Vector-bg.png"
