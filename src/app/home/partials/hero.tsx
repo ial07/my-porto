@@ -8,7 +8,7 @@ const Hero: React.FC = () => {
   return (
     <section
       id="hero"
-      className="w-full items-center gap-7 overflow-hidden pt-28 md:pt-[147px] h-[798px] md:max-h-full relative"
+      className="w-full items-center gap-7 overflow-hidden pt-28 md:pt-[147px] h-[798px] md:max-h-full relative z-50"
       style={{
         backgroundImage:
           "linear-gradient(to right, transparent 1px), linear-gradient(to bottom, transparent 1px), linear-gradient(180deg, #111827 0%, #3730A3 50%, #0F766E 100%)",
@@ -42,7 +42,7 @@ const Hero: React.FC = () => {
         }}
       />
 
-      <div className="custom-container flex flex-wrap h-full">
+      <div className="custom-container flex flex-wrap h-full z-30">
         {/* Left */}
         <div className="flex-[3.8] basis-80">
           <h1 className="display-xl-bold md:display-3xl-bold">
@@ -66,6 +66,12 @@ const Hero: React.FC = () => {
           style={{ width: "clamp(25.88rem, 62.91vw, 47.50rem)" }}
         />
       </div>
+      <Image
+        src="/images/gradient-hero.svg"
+        alt="gredient-hero"
+        fill
+        className="-z-50"
+      />
     </section>
   );
 };

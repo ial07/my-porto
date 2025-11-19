@@ -19,7 +19,7 @@ const CardTestimony: React.FC<CardTestimonyProps> = ({
   rating,
 }) => {
   return (
-    <div className="pb-4 px-4 md:pb-5 md:px-5 pt-15 inset-0 shadow-md shadow-[#0000001A] rounded-2xl bg-white w-full text-neutral-900 text-start relative h-100">
+    <div className="pb-4 px-4 md:pb-5 md:px-5 pt-15 inset-0 shadow-all-sides rounded-2xl bg-white w-full text-neutral-900 text-start relative h-100">
       <div className="size-20 rounded-full overflow-hidden absolute -top-10">
         <Image
           src={image}

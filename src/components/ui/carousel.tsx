@@ -18,6 +18,7 @@ type CarouselProps = {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: "horizontal" | "vertical";
+  actionPosition?: "bottom" | "top";
   setApi?: (api: CarouselApi) => void;
 };
 
@@ -44,6 +45,7 @@ function useCarousel() {
 
 function Carousel({
   orientation = "horizontal",
+  actionPosition = "bottom",
   opts,
   setApi,
   plugins,
@@ -112,6 +114,7 @@ function Carousel({
         opts,
         orientation:
           orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+        actionPosition: actionPosition,
         scrollPrev,
         scrollNext,
         canScrollPrev,
@@ -177,7 +180,8 @@ function CarouselPrevious({
   size = "icon",
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+  const { orientation, scrollPrev, canScrollPrev, actionPosition } =
+    useCarousel();
 
   return (
     <Button
@@ -185,10 +189,12 @@ function CarouselPrevious({
       variant={variant}
       size={size}
       className={cn(
-        "absolute size-8 rounded-full text-neutral-950",
+        "size-8 rounded-full text-neutral-950",
         orientation === "horizontal"
-          ? "-bottom-25 left-[calc(50%-3.5rem)] -translate-y-1/2"
-          : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
+          ? actionPosition === "top"
+            ? ""
+            : "absolute -bottom-25 left-[calc(50%-3.5rem)] -translate-y-1/2"
+          : "absolute -top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
       disabled={!canScrollPrev}
@@ -207,18 +213,21 @@ function CarouselNext({
   size = "icon",
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { orientation, scrollNext, canScrollNext } = useCarousel();
-
+  const { orientation, scrollNext, canScrollNext, actionPosition } =
+    useCarousel();
+  console.log(actionPosition);
   return (
     <Button
       data-slot="carousel-next"
       variant={variant}
       size={size}
       className={cn(
-        "absolute size-8 rounded-full text-neutral-950",
+        "size-8 rounded-full text-neutral-950",
         orientation === "horizontal"
-          ? "-bottom-25 right-[calc(50%-3.5rem)] -translate-y-1/2"
-          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
+          ? actionPosition === "top"
+            ? ""
+            : "absolute -bottom-25 right-[calc(50%-3.5rem)] -translate-y-1/2"
+          : "absolute -bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
       disabled={!canScrollNext}

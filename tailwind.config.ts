@@ -44,6 +44,12 @@ const customTextPlugin = plugin(({ addUtilities }) => {
 export default {
   theme: {
     extend: {
+      boxShadow: {
+        "all-sides":
+          "0 0 5px 0 rgba(0, 0, 0, 0.1), 0 5px 10px 0px rgba(0, 0, 0, 0.06)",
+        "top-and-bottom":
+          "0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+      },
       spacing: {
         "fluid-vertical": "clamp(5rem, 10vw, 15rem)",
       },
