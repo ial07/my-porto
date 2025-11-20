@@ -101,12 +101,12 @@ const Navbar: React.FC = () => {
                 {NavigationData.map((d) => (
                   <li key={d.label}>
                     <SheetClose asChild>
-                      <Link
-                        href={`/${d.href}`}
+                      <div
+                        onClick={() => handleScroll(d.href)}
                         className="hover:text-primary-200"
                       >
                         {d.label}
-                      </Link>
+                      </div>
                     </SheetClose>
                   </li>
                 ))}
