@@ -40,6 +40,7 @@ const Footer: React.FC = () => {
           <div className="flex items-center gap-4">
             {SosmedData.map((sosmed) => (
               <Link
+                target="_blank"
                 href={sosmed.link}
                 key={sosmed.alt}
                 className="size-10 rounded-full border-neutral-300 bg-primary-200 flex items-center justify-center border cursor-pointer hover:bg-primary-300"

@@ -26,11 +26,21 @@ type ExperiencedItemProps = {
   description: string;
   image: StaticImageData;
   range: string;
+  cover: string;
 };
 
 export const ExperiencedItem: React.FC<
   ExperiencedItemProps & { isRight: boolean; index: number; totalItems: number }
-> = ({ title, description, image, range, isRight, index, totalItems }) => {
+> = ({
+  title,
+  description,
+  image,
+  range,
+  isRight,
+  index,
+  totalItems,
+  cover,
+}) => {
   const ref = useRef(null);
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
@@ -95,7 +105,7 @@ export const ExperiencedItem: React.FC<
         viewport={{ once: true, amount: 0.5 }}
       >
         <Image
-          src="/images/porto-1.png"
+          src={`/images/${cover}`}
           alt="work-experience"
           width={500}
           height={500}
@@ -151,7 +161,7 @@ export const ExperiencedItem: React.FC<
         viewport={{ once: true, amount: 0.5 }}
       >
         <Image
-          src="/images/porto-1.png"
+          src={`/images/${cover}`}
           alt="work-experience"
           width={500}
           height={500}

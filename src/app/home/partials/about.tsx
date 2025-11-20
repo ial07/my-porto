@@ -9,13 +9,20 @@ import React from "react";
 import { motion } from "framer-motion";
 import { SosmedData } from "@/constants/socialmedia-data";
 import Link from "next/link";
+import { handleScroll } from "@/lib/utils";
 
 const About: React.FC = () => {
   return (
     <Section id="about" title="About" subtitle="The Developer Behind the Pixel">
       <div className="flex flex-wrap gap-5">
         {/* left 1 */}
-        <div className="md:flex-[6.9]  bg-linear-to-br from-[#134BA6] to-[#2D8CFF] rounded-3xl px-4 py-6 md:p-10">
+        <div className="md:flex-[6.9]  bg-linear-to-br from-[#134BA6] to-[#2D8CFF] rounded-3xl px-4 py-6 md:p-10 relative">
+          <Image
+            src="/images/Pattern.svg"
+            alt="pattern"
+            fill
+            className="z-10"
+          />
           <div className="md:flex md:justify-between">
             <div className="flex gap-1.5 items-center">
               <div className="size-12.5 md:size-21 overflow-hidden rounded-full bg-primary-200">
@@ -34,9 +41,10 @@ const About: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 mt-6 md:mt-0">
+            <div className="flex items-center gap-3 mt-6 md:mt-0 z-20">
               {SosmedData.map((sosmed) => (
                 <Link
+                  target="_blank"
                   href={sosmed.link}
                   key={sosmed.alt}
                   className="size-10 rounded-full border-neutral-300 bg-primary-200 flex items-center justify-center border cursor-pointer hover:bg-primary-300"
@@ -63,16 +71,25 @@ const About: React.FC = () => {
         </div>
 
         {/* Right 1 */}
-        <div className="w-full md:flex-[3.1] relative rounded-3xl bg-[#F0DAC1] flex-center min-h-[263px]">
-          <Image
-            src="/images/me-hi.png"
-            alt="me-hi"
-            width={500}
-            height={500}
-            className="absolute bottom-0 object-contain"
-            style={{ width: "clamp(15.56rem, 33.11vw, 25.00rem)" }}
-          />
-        </div>
+        <motion.div
+          whileHover={{ backgroundColor: "#dabb98" }}
+          className="w-full md:flex-[3.1] relative rounded-3xl bg-[#F0DAC1] flex-center min-h-[263px] overflow-hidden cursor-pointer"
+        >
+          <motion.div
+            initial={{ bottom: -20 }}
+            whileHover={{ bottom: 0 }}
+            className="absolute"
+          >
+            <Image
+              src="/images/me-hi.png"
+              alt="me-hi"
+              width={500}
+              height={500}
+              className="object-contain"
+              style={{ width: "clamp(15.56rem, 33.11vw, 25.00rem)" }}
+            />
+          </motion.div>
+        </motion.div>
       </div>
       <div className="flex flex-col md:flex-row items-center gap-5 mt-5 md:h-125.5">
         <div
@@ -80,7 +97,11 @@ const About: React.FC = () => {
           style={{ height: "clamp(28.56rem, 41.56vw, 31.38rem)" }}
         >
           <div className="absolute -left-20 -bottom-30 w-80 h-80 bg-[#0013FF] rounded-full blur-3xl pointer-events-none" />
-          <div className="flex-between cursor-pointer hover:text-white/80">
+          <Link
+            href="https://github.com/ial07"
+            target="_blank"
+            className="flex-between cursor-pointer hover:text-white/80"
+          >
             <div>
               <h4 className="text-xl-bold">Check My Portfolio</h4>
               <p className="text-md-regular text-neutral-25">
@@ -97,7 +118,7 @@ const About: React.FC = () => {
               />
             </div>
             <ChevronRight />
-          </div>
+          </Link>
         </div>
 
         <div
@@ -161,7 +182,10 @@ const About: React.FC = () => {
           </motion.div>
         </div>
 
-        <div className="bg-primary-200 hover:bg-primary-300 cursor-pointer rounded-full md:rounded-3xl w-full py-5 md:w-11xl md:h-full flex-center">
+        <div
+          className="bg-primary-200 hover:bg-primary-300 cursor-pointer rounded-full md:rounded-3xl w-full py-5 md:w-11xl md:h-full flex-center"
+          onClick={() => handleScroll("contact")}
+        >
           <Mail />
         </div>
       </div>
