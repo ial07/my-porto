@@ -13,6 +13,7 @@ import React from "react";
 const Portofolio: React.FC = () => {
   return (
     <Section
+      id="projects"
       title="Portfolio"
       subtitle="Built with Passion, Shipped with Precision"
     >

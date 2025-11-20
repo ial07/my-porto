@@ -193,7 +193,7 @@ function CarouselPrevious({
         orientation === "horizontal"
           ? actionPosition === "top"
             ? ""
-            : "absolute -bottom-25 left-[calc(50%-3.5rem)] -translate-y-1/2"
+            : "absolute -bottom-15 md:-bottom-25 left-[calc(50%-3.5rem)] -translate-y-1/2"
           : "absolute -top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
@@ -215,7 +215,6 @@ function CarouselNext({
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollNext, canScrollNext, actionPosition } =
     useCarousel();
-  console.log(actionPosition);
   return (
     <Button
       data-slot="carousel-next"
@@ -226,7 +225,7 @@ function CarouselNext({
         orientation === "horizontal"
           ? actionPosition === "top"
             ? ""
-            : "absolute -bottom-25 right-[calc(50%-3.5rem)] -translate-y-1/2"
+            : "absolute -bottom-15 md:-bottom-25 right-[calc(50%-3.5rem)] -translate-y-1/2"
           : "absolute -bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}

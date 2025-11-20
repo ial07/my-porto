@@ -16,7 +16,7 @@ const CardPorto: React.FC<CardPortoProps> = ({ image, link, label }) => {
         <Link
           href={link}
           style={{ backdropFilter: "blur(40px)" }}
-          className="bg-[#00000066] w-full p-2 rounded-full text-md-bold md:text-lg-bold"
+          className="bg-[#00000066] hover:bg-black/70 w-full p-2 rounded-full text-md-bold md:text-lg-bold"
           target="_blank"
         >
           {label}

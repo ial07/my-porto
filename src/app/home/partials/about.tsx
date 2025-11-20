@@ -2,19 +2,17 @@
 
 import Section from "@/components/layout/section";
 import { techData } from "@/constants/tech-data";
-import {
-  ChevronRight,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Mail,
-} from "lucide-react";
+import { ChevronRight, Mail } from "lucide-react";
+import { Icon } from "@iconify/react";
 import Image from "next/image";
 import React from "react";
+import { motion } from "framer-motion";
+import { SosmedData } from "@/constants/socialmedia-data";
+import Link from "next/link";
 
 const About: React.FC = () => {
   return (
-    <Section title="About" subtitle="The Developer Behind the Pixel">
+    <Section id="about" title="About" subtitle="The Developer Behind the Pixel">
       <div className="flex flex-wrap gap-5">
         {/* left 1 */}
         <div className="md:flex-[6.9]  bg-linear-to-br from-[#134BA6] to-[#2D8CFF] rounded-3xl px-4 py-6 md:p-10">
@@ -37,18 +35,19 @@ const About: React.FC = () => {
               </div>
             </div>
             <div className="flex items-center gap-3 mt-6 md:mt-0">
-              <div className="size-10 rounded-full border-neutral-300 bg-primary-200 flex items-center justify-center border">
-                <Facebook className="" />
-              </div>
-              <div className="size-10 rounded-full border-neutral-300 bg-primary-200 flex items-center justify-center border">
-                <Instagram className="" />
-              </div>
-              <div className="size-10 rounded-full border-neutral-300 bg-primary-200 flex items-center justify-center border">
-                <Linkedin className="" />
-              </div>
-              <div className="size-10 rounded-full border-neutral-300 bg-primary-200 flex items-center justify-center border">
-                <Instagram className="" />
-              </div>
+              {SosmedData.map((sosmed) => (
+                <Link
+                  href={sosmed.link}
+                  key={sosmed.alt}
+                  className="size-10 rounded-full border-neutral-300 bg-primary-200 flex items-center justify-center border cursor-pointer hover:bg-primary-300"
+                >
+                  <Icon
+                    icon={sosmed.icon}
+                    color="#fff"
+                    className="text-white size-6"
+                  />
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -81,7 +80,7 @@ const About: React.FC = () => {
           style={{ height: "clamp(28.56rem, 41.56vw, 31.38rem)" }}
         >
           <div className="absolute -left-20 -bottom-30 w-80 h-80 bg-[#0013FF] rounded-full blur-3xl pointer-events-none" />
-          <div className="flex-between">
+          <div className="flex-between cursor-pointer hover:text-white/80">
             <div>
               <h4 className="text-xl-bold">Check My Portfolio</h4>
               <p className="text-md-regular text-neutral-25">
@@ -113,7 +112,11 @@ const About: React.FC = () => {
             className="w-full absolute bottom-0 left-0"
           />
 
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true }}
             className="flex justify-between items-end gap-5 w-full h-48 relative overflow-hidden top-1/5 left-0"
             style={{ position: "absolute" }}
           >
@@ -125,7 +128,11 @@ const About: React.FC = () => {
               const y = Math.sin(x * Math.PI) * amplitude; // sine curve
 
               return (
-                <div
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  viewport={{ once: true }}
                   key={tech.alt}
                   className="bg-[#FFFFFF99] rounded-full flex-center absolute"
                   style={{
@@ -136,19 +143,25 @@ const About: React.FC = () => {
                   }}
                 >
                   <Image src={tech.icon} alt={tech.alt} />
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
 
-          <div className="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-5 overflow-hidden w-[clamp(18.31rem,29.64vw,22.38rem)] h-[clamp(18.31rem,29.64vw,22.38rem)]">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-5 overflow-hidden w-[clamp(18.31rem,29.64vw,22.38rem)] h-[clamp(18.31rem,29.64vw,22.38rem)]"
+          >
             <span className="display-sm-bold text-neutral-950 text-center">
               Built with 10+ Trusted Technologies
             </span>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="bg-primary-200 rounded-full md:rounded-3xl w-full py-5 md:w-11xl md:h-full flex-center">
+        <div className="bg-primary-200 hover:bg-primary-300 cursor-pointer rounded-full md:rounded-3xl w-full py-5 md:w-11xl md:h-full flex-center">
           <Mail />
         </div>
       </div>

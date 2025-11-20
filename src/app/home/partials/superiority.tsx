@@ -3,11 +3,13 @@
 import CardSuperiority from "@/components/card-superiority";
 import Section from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
+import { handleScroll } from "@/lib/utils";
 import React from "react";
 
 const Superiority: React.FC = () => {
   return (
     <Section
+      id="superiority"
       title="Superiority"
       subtitle="Built with design, speed, and UX in mind."
     >
@@ -39,7 +41,11 @@ const Superiority: React.FC = () => {
       </div>
 
       <div className="mt-6 md:mt-12 flex-center">
-        <Button variant={"secondary"} className="w-full md:w-fit">
+        <Button
+          variant={"secondary"}
+          className="w-full md:w-fit"
+          onClick={() => handleScroll("contact")}
+        >
           Hire Me
         </Button>
       </div>

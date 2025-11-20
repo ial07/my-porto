@@ -36,20 +36,14 @@ export const ExperiencedItem: React.FC<
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   // Layout and margin classes (unchanged)
-  const itemWrapperClasses = "w-full max-w-[50%]";
-  const imageOrderClass = isMobile
-    ? "order-2"
-    : isRight
-    ? "order-1"
-    : "order-3";
-  const contentOrderClass = isMobile
-    ? "order-2"
-    : isRight
-    ? "order-3"
-    : "order-1";
-  const lineOrderClass = isMobile ? "order-1" : "order-2";
-  const contentMarginClass = isRight ? "ml-6" : "mr-6";
-  const imageMarginClass = isRight ? "mr-6" : "ml-6";
+  const itemWrapperClasses = "w-full md:max-w-[50%]";
+  const imageOrderClass = isRight ? "md:order-1" : "md:order-3";
+  const contentOrderClass = isRight ? "md:order-3" : "md:order-1";
+  const lineOrderClass = "order-1 md:order-2";
+
+  // margin hanya aktif di md ke atas
+  const contentMarginClass = isRight ? "md:ml-6" : "md:mr-6";
+  const imageMarginClass = isRight ? "md:mr-6" : "md:ml-6";
 
   // Card slide-in animation variants
   const cardVariants = {
@@ -84,17 +78,17 @@ export const ExperiencedItem: React.FC<
   const lineVariants = {
     hidden: { height: 0, backgroundColor: "#D5D7DA" },
     visible: {
-      height: !isLastItem ? "clamp(17.81rem, 50.98vw, 32.63rem)" : undefined,
+      height: !isLastItem ? (isMobile ? "550px" : "400px") : undefined,
       backgroundColor: "#C2DBFF",
       transition: { duration: 1, ease: "easeInOut" as const, delay: 0.1 },
     },
   };
 
   return (
-    <div className="flex w-full items-center mb-4 md:mb-8" ref={ref}>
+    <div className="flex w-full md:items-center mb-4 md:mb-8" ref={ref}>
       {/* 1. Image Container (Uses hasAnimated for persistent visibility) */}
       <motion.div
-        className={`${itemWrapperClasses} ${imageOrderClass} ${imageMarginClass}`}
+        className={`${itemWrapperClasses} ${imageOrderClass} ${imageMarginClass} hidden md:inline`}
         variants={cardVariants}
         initial="hidden"
         whileInView="visible"
@@ -150,13 +144,20 @@ export const ExperiencedItem: React.FC<
 
       {/* 3. Content Container (Animated) */}
       <motion.div
-        className={`${itemWrapperClasses} ${contentOrderClass} ${contentMarginClass}`}
+        className={`${itemWrapperClasses} ${contentOrderClass} ${contentMarginClass} order-2`}
         variants={cardVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.5 }}
       >
-        <div className="shadow-lg rounded-3xl w-full h-fit p-4 md:p-5 border border-gray-100 bg-white">
+        <Image
+          src="/images/porto-1.png"
+          alt="work-experience"
+          width={500}
+          height={500}
+          className="md:hidden w-full h-43.5 object-cover rounded-3xl rounded-br-none rounded-bl-none"
+        />
+        <div className="shadow-lg rounded-tl-none rounded-tr-none rounded-3xl md:rounded-tl-3xl md:rounded-tr-3xl w-full h-fit p-4 md:p-5 border border-gray-100 bg-white">
           <div className="flex items-center gap-1">
             <Image
               src="/icon/calender.svg"

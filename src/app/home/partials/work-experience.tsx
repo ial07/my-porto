@@ -7,6 +7,7 @@ import React from "react";
 const WorkExperience: React.FC = () => {
   return (
     <Section
+      id="experienced"
       title="Work Experience"
       subtitle="A timeline of companies and roles that helped shape my skills."
       className="relative"

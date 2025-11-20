@@ -8,8 +8,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { NavigationData } from "@/constants/navigation-data";
+import { handleScroll } from "@/lib/utils";
 import { useScroll, useTransform, motion } from "framer-motion";
-import { Menu } from "lucide-react";
+import { Menu, XIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -34,14 +35,17 @@ const Navbar: React.FC = () => {
     >
       <div className="custom-container flex-between h-20 md:h-21">
         {/* Logo */}
-        <div className="size-10.5 overflow-hidden rounded-full bg-primary-200">
-          <Image
-            src="/images/me.jpg"
-            alt="logo"
-            width={42}
-            height={42}
-            className="aspect-square object-cover object-top"
-          />
+        <div className="flex-start gap-4">
+          <div className="size-10.5 overflow-hidden rounded-full bg-primary-200">
+            <Image
+              src="/images/me.jpg"
+              alt="logo"
+              width={42}
+              height={42}
+              className="aspect-square object-cover object-top"
+            />
+          </div>
+          <span className="text-xl-bold text-white">Ilham</span>
         </div>
 
         {/* Nav */}
@@ -49,39 +53,61 @@ const Navbar: React.FC = () => {
           <ul className="flex-start gap-3">
             {NavigationData.map((d) => (
               <li key={d.label}>
-                <Link
-                  href={`/${d.href}`}
-                  className="hover:text-primary-200 p-4"
+                <div
+                  onClick={() => handleScroll(d.href)}
+                  className="hover:text-primary-200 p-4 cursor-pointer"
                 >
                   {d.label}
-                </Link>
+                </div>
               </li>
             ))}
           </ul>
         </nav>
 
         {/* Button */}
-        <Button asChild className="hidden lg:flex">
-          <Link href="#contact">Get Started</Link>
+        <Button
+          className="hidden lg:flex"
+          onClick={() => handleScroll("contact")}
+        >
+          Get Started
         </Button>
 
         {/* Hamburger menu */}
 
         <Sheet>
           <SheetTrigger asChild>
-            <Menu className="cursor-pointer lg:hidden data-[state=open]:hidden" />
+            <Menu className="cursor-pointer md:hidden data-[state=open]:hidden" />
           </SheetTrigger>
-          <SheetContent>
-            <nav className="px-4 py-25">
-              <ul className="text-neutral-950 text-md-medium flex flex-col gap-6">
+          <SheetContent className="z-90">
+            <nav className="px-4">
+              <div className="pt-5 flex-between">
+                <div className="flex-start gap-3">
+                  <div className="size-10.5 overflow-hidden rounded-full bg-primary-200">
+                    <Image
+                      src="/images/me.jpg"
+                      alt="logo"
+                      width={42}
+                      height={42}
+                      className="aspect-square object-cover object-top"
+                    />
+                  </div>
+                  <span className="text-xl-bold text-neutral-900">Ilham</span>
+                </div>
+                <SheetClose>
+                  <XIcon className="size-7 md:hidden data-[state=closed]:hidden text-black" />
+                </SheetClose>
+              </div>
+              <ul className="text-neutral-950 text-md-medium flex flex-col gap-6 py-20">
                 {NavigationData.map((d) => (
                   <li key={d.label}>
-                    <Link
-                      href={`/${d.href}`}
-                      className="hover:text-primary-200"
-                    >
-                      {d.label}
-                    </Link>
+                    <SheetClose asChild>
+                      <Link
+                        href={`/${d.href}`}
+                        className="hover:text-primary-200"
+                      >
+                        {d.label}
+                      </Link>
+                    </SheetClose>
                   </li>
                 ))}
                 <Button variant={"secondary"} asChild>

@@ -7,22 +7,22 @@ type NavigationDataProps = {
 export const NavigationData : NavigationDataProps[]= [
     {
         label:"Home",
-        href:"#home"
+        href:"home"
     },
     {
         label:"About",
-        href:"#about"
+        href:"about"
     },
     {
         label:"Skill",
-        href:"#skill"
+        href:"skills"
     },
     {
         label:"Projects",
-        href:"#projects"
+        href:"projects"
     },
     {
         label:"FAQ",
-        href:"#faq"
+        href:"faq"
     }
 ]

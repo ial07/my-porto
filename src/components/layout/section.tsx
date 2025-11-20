@@ -8,25 +8,30 @@ type SectionProps = {
   title: string;
   subtitle: string;
   className?: string;
+  isLeft?: boolean;
+  id: string;
 };
 
 const Section: React.FC<SectionProps> = ({
   children,
   subtitle,
   title,
+  isLeft = false,
   className,
+  id,
 }) => {
   const isPrimaryBg = className?.includes("bg-primary");
 
   return (
     <section
+      id={id}
       className={cn(
         "py-10 md:py-20",
         !isPrimaryBg && "custom-container",
         className
       )}
     >
-      <div className="text-center">
+      <div className={isLeft ? "text-start" : `text-center`}>
         <h3
           className={cn(
             "text-sm-bold px-3 py-1 border border-neutral-300 w-fit rounded-full text-neutral-900 inline",

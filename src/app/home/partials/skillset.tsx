@@ -6,6 +6,7 @@ import React from "react";
 const Skillset: React.FC = () => {
   return (
     <Section
+      id="skills"
       title="Skillset"
       subtitle="Skills That Build Great Interfaces"
       className="bg-primary-200"

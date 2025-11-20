@@ -24,7 +24,11 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
   const offset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+    <motion.div
+      initial={{ scale: 1 }}
+      whileHover={{ scale: 1.05 }}
+      className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm border border-gray-100 cursor-pointer"
+    >
       <div className="relative">
         {/* SVG Container */}
         <svg
@@ -59,7 +63,8 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
             strokeDashoffset={circumference} // Start fully offset (hidden)
             // Framer Motion Animation
             initial={{ strokeDashoffset: circumference }}
-            animate={{ strokeDashoffset: offset }}
+            whileInView={{ strokeDashoffset: offset }}
+            viewport={{ once: false, amount: 0.6 }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
           />
         </svg>
@@ -75,7 +80,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
         <Image src={icon} alt={label} className="h-4.5" />
         <span className="text-md-bold">{label}</span>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

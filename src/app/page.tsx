@@ -13,7 +13,7 @@ import WorkExperience from "./home/partials/work-experience";
 
 export default function Home() {
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <Navbar />
       <Hero />
       <About />
@@ -22,8 +22,8 @@ export default function Home() {
       <Portofolio />
       <WorkExperience />
       <Testimony />
-      <Faq/>
-      <Footer/>
+      <Faq />
+      <Footer />
     </div>
   );
 }
