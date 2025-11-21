@@ -155,7 +155,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
       <div className="w-ful py-6.5 md:py-8 text-center border border-neutral-900">
-        © 2025 Edwin Anderson. All rights reserved.
+        © 2026 Ilham Malik. All rights reserved.
       </div>
     </footer>
   );
