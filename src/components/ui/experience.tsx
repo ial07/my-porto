@@ -88,7 +88,7 @@ export const ExperiencedItem: React.FC<
   const lineVariants = {
     hidden: { height: 0, backgroundColor: "#D5D7DA" },
     visible: {
-      height: !isLastItem ? (isMobile ? "550px" : "400px") : undefined,
+      height: !isLastItem ? (isMobile ? "580px" : "400px") : undefined,
       backgroundColor: "#C2DBFF",
       transition: { duration: 1, ease: "easeInOut" as const, delay: 0.1 },
     },
